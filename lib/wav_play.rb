@@ -12,8 +12,7 @@ class Wav
     }
   end
 
-  def play
-        
+  def play( ch = -1 )
     unless self.wave.empty?
       t = Tempfile.new('beeptoys')
       t.write make_wav
@@ -21,7 +20,10 @@ class Wav
       t.open
       begin
         snd = SDL::Mixer::Wave.load_from_io( t )
-        SDL::Mixer.play_channel(-1,snd,0 ) #until SDL::Mixer::play?(0)
+        while true
+          break unless SDL::Mixer::play?( ch )
+        end
+        SDL::Mixer.play_channel( ch, snd, 0 )
       rescue
         SDL.init SDL::INIT_AUDIO
         SDL::Mixer.open(44100, SDL::Mixer::DEFAULT_FORMAT, 2, 1024)
