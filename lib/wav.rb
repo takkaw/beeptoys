@@ -66,7 +66,6 @@ class Wav
     end
   end
 
-
   def size
     if monoral?
       @wave.size
