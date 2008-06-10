@@ -76,6 +76,7 @@ class Wav
   alias :length :size
 
   private
+
   def empty
     [].to_na
   end
