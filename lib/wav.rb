@@ -32,7 +32,7 @@ class Wav
     filename = 'wave/' + filename 
     
     File.open( filename, "w" ){ |f|
-      f.write make_wav
+      f.write( make_wav_header )
     }
   end
   
@@ -90,7 +90,7 @@ class Wav
     }
   end
   
-  def make_wav
+  def make_wav_header
     'RIFF' +                                            # RIFF header
     (36 + self.length*@sample_bit/8*@channels).pack32 + # (36 = 44-8)
     'WAVE' +                                            # WAVE header
@@ -108,7 +108,6 @@ class Wav
   end
   
   def wave_pack
-    # support 16bit only now.
     if _16bit?
       if stereo?
         (@wave[0].to_a.zip(@wave[1].to_a).flatten).pack16
@@ -116,7 +115,6 @@ class Wav
         @wave.to_a.pack16
       end
     elsif _8bit?
-      # change 
       if stereo?
         (@wave[0].to_a.zip(@wave[1].to_a).flatten).pack8
       elsif monoral?

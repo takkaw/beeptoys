@@ -3,19 +3,11 @@ require 'rubygems'
 require 'sdl'
 
 class Wav
-  #include Wav_init
-
-  def test_play
-    open("wave/dancemusic8_kick.wav"){|f|
-      kick = SDL::Mixer::Wave.load_from_io f
-      SDL::Mixer.play_channel(0,kick,0 ) until SDL::Mixer::play?(0)
-    }
-  end
 
   def play( ch = -1 )
     unless self.wave.empty?
       t = Tempfile.new('beeptoys')
-      t.write make_wav
+      t.write make_wav_header
       t.close
       t.open
       begin
@@ -26,7 +18,7 @@ class Wav
         SDL::Mixer.play_channel( ch, snd, 0 )
       rescue
         SDL.init SDL::INIT_AUDIO
-        SDL::Mixer.open(44100, SDL::Mixer::DEFAULT_FORMAT, 2, 1024)
+        SDL::Mixer.open( 44100, SDL::Mixer::DEFAULT_FORMAT, 2, 1024)
         retry
       end
 
