@@ -6,6 +6,7 @@ class String
 end
 
 class Fixnum
+  def pack8  ; self.pack("c") ; end
   def pack16 ; self.pack("v") ; end
   def pack32 ; self.pack("V") ; end
    
@@ -13,6 +14,7 @@ class Fixnum
 end
 
 class Array
+  def pack8  ; self.pack("c*") ; end
   def pack16 ; self.pack("v*") ; end
   def pack32 ; self.pack("V*") ; end
 end

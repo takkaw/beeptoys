@@ -124,18 +124,18 @@ class Wav
     end
   end
 
-  def self.load_chunk(file)
-    type = file.read(4)
-    size = file.read(4).unpack("V")[0]
-    data = file.read(size)
-    return {:type => type , :size => size, :data => data }
-  end
-
   def self.load_riff(file)
     riff = file.read(4)
     data_size = file.read(4).unpack("V")[0]
     wave = file.read(4)
     raise NotWavFormatError unless riff == "RIFF" and wave[0..3] == "WAVE"
+  end
+
+  def self.load_chunk(file)
+    type = file.read(4)
+    size = file.read(4).unpack("V")[0]
+    data = file.read(size)
+    return {:type => type , :size => size, :data => data }
   end
 
   def self.load_wave(file)
