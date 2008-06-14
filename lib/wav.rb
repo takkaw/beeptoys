@@ -6,11 +6,23 @@ class Wav
               :sample_rate,
               :sample_bit
 
-  def initialize(wave=nil,option={})
-    config = default_config.update(option)
-    @channels    = config[:channels]
-    @sample_rate = config[:sample_rate]
-    @sample_bit  = config[:sample_bit]
+  def initialize( *args )
+    # default value
+    @channels    = 1
+    @sample_rate = 44100
+    @sample_bit  = 16
+    wave = nil
+
+    # config by args
+    args.each { |arg|
+      case arg
+      when Channel ; @channels    = arg.to_i 
+      when Freq    ; @sample_rate = arg.to_i
+      when Bit     ; @sample_bit  = arg.to_i
+      else wave = arg
+      end
+    }
+
     unless wave
       if monoral?
         @wave = empty
@@ -24,6 +36,7 @@ class Wav
         @wave = wave[0].to_na,wave[1].to_na
       end
     end
+
   end
   
   def save(filename)
@@ -41,16 +54,12 @@ class Wav
     filename += ".wav" unless File.extname(filename) == ".wav"
     filename = 'wave/' + filename 
 
-    channels,sample_rate,sample_bits,wave=\
+    ch,rate,bit,wave=\
     File.open(filename,"rb") { |file|
       load_riff(file)
       load_wave(file)
     }
-    self.new(wave,option={
-      :channels => channels,
-      :sample_rate => sample_rate,
-      :sample_bits => sample_bits
-    })
+    self.new( wave , ch.ch , rate.hz , bit.bit )
   end
 
   def monoral? ; @channels   == 1  ; end
@@ -81,14 +90,6 @@ class Wav
     [].to_na
   end
 
-  def default_config
-    {
-      :channels    => 1,                                # Monoral
-      :sample_rate => 44100,                            # 44.1kHz
-      :sample_bit  => 16,                               # 16bit
-      :wave        => empty 
-    }
-  end
   
   def make_wav_header
     'RIFF' +                                            # RIFF header

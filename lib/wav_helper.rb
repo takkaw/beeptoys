@@ -38,6 +38,7 @@ class Numeric
   def khz     ; Freq.new( self * 1000 ) ; end 
   def bit     ; Bit.new( self )         ; end 
   def channel ; Channel.new( self )     ; end 
+  def ch      ; Channel.new( self )     ; end
   def sec(s)  ; s * SampleRate          ; end
   def min(m)  ; m * SampleRate * 60     ; end
 end
