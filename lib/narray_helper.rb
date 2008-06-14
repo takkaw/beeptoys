@@ -17,9 +17,6 @@ class NArray
   def reverse
     self.to_a.reverse.to_na
   end
-  def reverse!
-    self.to_a.replace(self.reverse).to_na
-  end
   def flatten_
     self.empty? ? self : self.flatten
   end

@@ -1,19 +1,20 @@
 class Wav
   def reverse!
-    @wave = rev
+    if monoral?
+      @wave = @wave.reverse
+    elsif stereo?
+      @wave = @wave[0].reverse!,@wave[1].reverse!
+    end
   end
 
   def reverse
-    Wav.new rev
+    if monoral?
+      wave = @wave.reverse
+    elsif stereo?
+      wave = [@wave[0].reverse,@wave[1].reverse]
+    end
+    Wav.new Channel[@channels],Freq[@sample_rate],Bit[@sample_bit],wave
   end
 
-  :pravate
-  def rev
-    if monoral?
-      @wave.reverse
-    elsif stereo?
-      [@wave[0].reverse,@wave[1].reverse]
-    end
-  end
 end
 
