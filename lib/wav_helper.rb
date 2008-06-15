@@ -39,12 +39,13 @@ class Channel
 end
 
 class Numeric
-  def hz      ; Freq.new( self )        ; end 
-  def khz     ; Freq.new( self * 1000 ) ; end 
-  def bit     ; Bit.new( self )         ; end 
-  def channel ; Channel.new( self )     ; end 
-  def ch      ; Channel.new( self )     ; end
-  def sec(s)  ; s * SampleRate          ; end
-  def min(m)  ; m * SampleRate * 60     ; end
+  def hz      ; Freq[ self ]            ; end 
+  def khz     ; Freq[ self * 1000 ]     ; end 
+  def bit     ; Bit[ self ]             ; end 
+  def channel ; Channel[ self ]         ; end 
+  def ch      ; Channel[ self ]         ; end
+
+  def sec     ; self * BeepConf[ :sample_rate ]       ; end
+  def min     ; self * BeepConf[ :sample_rate ] * 60  ; end
 end
 
