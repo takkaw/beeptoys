@@ -28,3 +28,6 @@ class Wav
 
 end
 
+def play(obj)
+  obj.play
+end
