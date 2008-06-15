@@ -12,10 +12,11 @@ class Wav
       t.open
       begin
         snd = SDL::Mixer::Wave.load_from_io( t )
-        while true
-          break unless SDL::Mixer::play?( ch )
-        end
+        wait_play( ch )
         SDL::Mixer.play_channel( ch, snd, 0 )
+
+        wait_play( ch ) if $TEST
+
       rescue
         SDL.init SDL::INIT_AUDIO
         SDL::Mixer.open( 44100, SDL::Mixer::DEFAULT_FORMAT, 2, 1024)
@@ -23,6 +24,14 @@ class Wav
       end
 
       t.close(true)
+    end
+  end
+
+  private
+
+  def wait_play( ch )
+    while true
+      break unless SDL::Mixer::play?( ch )
     end
   end
 
