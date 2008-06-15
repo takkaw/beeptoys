@@ -1,10 +1,31 @@
 require 'rubygems'
-require 'narray'
+
+SupportNarray = false
+if BeepConfig[ :use_narray ]
+  begin
+    require 'narray' 
+    SupportNarray = true
+  rescue LoadError
+  end
+end
+
+if SupportNarray
+  puts 'use narray mode'
+else
+  puts 'no narray mode'
+end
 
 class Array
-  def to_na
-    NArray.to_na(self)
+  if SupportNarray
+    def to_na
+      NArray.to_na(self)
+    end
+  else
+    def to_na
+      self
+    end
   end
+
   def flatten_
     self.flatten
   end

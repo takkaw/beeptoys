@@ -45,7 +45,7 @@ class Numeric
   def channel ; Channel[ self ]         ; end 
   def ch      ; Channel[ self ]         ; end
 
-  def sec     ; self * BeepConf[ :sample_rate ]       ; end
-  def min     ; self * BeepConf[ :sample_rate ] * 60  ; end
+  def sec     ; self * BeepConfig[ :sample_rate ]       ; end
+  def min     ; self * BeepConfig[ :sample_rate ] * 60  ; end
 end
 

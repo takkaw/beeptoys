@@ -1,18 +1,6 @@
-require 'yaml'
-# default config
-BeepConfig = {
-  :wave_dir    => 'wave' ,
-  :sample_rate => 44100   ,
-}
-begin
-  conf = YAML.load_file('config.yaml')
-rescue
-  conf = {}
-end
-BeepConfig.update conf
-
 # load library
 require 'lib/version.rb'
+require 'lib/load_config.rb'
 require 'lib/wav.rb'            # require narray
 require 'lib/wav_helper.rb'     # require narray
 require 'lib/narray_helper.rb'  # require narray
