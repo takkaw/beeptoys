@@ -15,7 +15,7 @@ class Wav
         wait_play( ch )
         SDL::Mixer.play_channel( ch, snd, 0 )
 
-        wait_play( ch ) if $TEST
+        wait_play( ch ) unless BeepConfig[:live]
 
       rescue
         SDL.init SDL::INIT_AUDIO
