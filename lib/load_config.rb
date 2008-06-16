@@ -5,7 +5,7 @@ BeepConfig = {
   :sample_rate => 44100   ,
 }
 begin
-  conf = YAML.load_file('../config.yaml')
+  conf = YAML.load_file('config.yaml')
 rescue
   conf = {}
 end
