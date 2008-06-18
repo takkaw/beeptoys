@@ -1,26 +1,38 @@
-def plot(ary)
-  require "gnuplot"
- 
-  Gnuplot.open do |gp|
-    Gnuplot::Plot.new( gp ) do |plot|
-  
-=begin
-    plot.title  'title'
-    plot.ylabel 'ylabel'
-    plot.xlabel 'xlabel'
-=end
+require 'rubygems'
+
+if BeepConfig[ :use_gnuplot ]
+  begin
+    require 'gnuplot'
+  rescue LoadError
+  end
+end
+
+if defined? Gnuplot 
+
+  def plot(ary)
+    Gnuplot.open do |gp|
+      Gnuplot::Plot.new( gp ) do |plot|
     
 =begin
-      x = (0..50).collect { |v| v.to_f }
-      y = x.collect { |v| v ** 2 }
+      plot.title  'title'
+      plot.ylabel 'ylabel'
+      plot.xlabel 'xlabel'
 =end
-      x = Array.new(ary.length) { |t| ; t }
-      y = ary.to_a
- 
-      plot.data << Gnuplot::DataSet.new( [x, y] ) do |ds|
-        ds.with = "lines"
-        ds.notitle
+      
+=begin
+        x = (0..50).collect { |v| v.to_f }
+        y = x.collect { |v| v ** 2 }
+=end
+        x = Array.new(ary.length) { |t| ; t }
+        y = ary.to_a
+   
+        plot.data << Gnuplot::DataSet.new( [x, y] ) do |ds|
+          ds.with = "lines"
+          ds.notitle
+        end
       end
     end
   end
+else
+  puts 'no gnuplot'
 end

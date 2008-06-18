@@ -1,22 +1,14 @@
 require 'rubygems'
 
-SupportNarray = false
 if BeepConfig[ :use_narray ]
   begin
     require 'narray' 
-    SupportNarray = true
   rescue LoadError
   end
 end
 
-if SupportNarray
-  puts 'use narray mode'
-else
-  puts 'no narray mode'
-end
-
 class Array
-  if SupportNarray
+  if defined? NArray
     def to_na
       NArray.to_na(self)
     end

@@ -1,5 +1,8 @@
-:wave_dir    : 'wave'
-:sample_rate : 44100
 :use_narray  : true
+:use_gnuplot : true
+:use_sdl     : true
+
 :live        : true
+
+:sample_rate : 44100
 
