@@ -1,11 +1,4 @@
-require 'rubygems'
-
-if BeepConfig[ :use_narray ]
-  begin
-    require 'narray' 
-  rescue LoadError
-  end
-end
+try_require 'narray'
 
 class Array
   if defined? NArray

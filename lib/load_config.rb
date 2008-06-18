@@ -10,3 +10,16 @@ rescue
   conf = {}
 end
 BeepConfig.update conf
+
+def try_require( lib )
+  if BeepConfig[ lib.to_sym ]
+    begin
+      require lib
+    rescue LoadError
+    end
+  end
+end
+
+try_require 'rubygems'
+
+

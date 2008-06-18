@@ -1,11 +1,4 @@
-require 'rubygems'
-
-if BeepConfig[ :use_gnuplot ]
-  begin
-    require 'gnuplot'
-  rescue LoadError
-  end
-end
+try_require 'gnuplot'
 
 if defined? Gnuplot 
 

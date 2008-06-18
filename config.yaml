@@ -1,8 +1,11 @@
-:use_narray  : true
-:use_gnuplot : true
-:use_sdl     : true
+# use extern library
+:narray  : true
+:gnuplot : true
+:sdl     : true
 
+# live mode when you use irb
 :live        : true
 
+# default sample rate
 :sample_rate : 44100
 

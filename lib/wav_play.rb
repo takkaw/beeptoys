@@ -1,12 +1,6 @@
 require 'tempfile'
-require 'rubygems'
 
-if BeepConfig[ :use_sdl ]
-  begin
-    require 'sdl'
-  rescue LoadError
-  end 
-end
+try_require 'sdl'
 
 if defined? SDL
   class Wav
