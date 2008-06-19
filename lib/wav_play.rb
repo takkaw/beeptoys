@@ -8,7 +8,8 @@ if defined? SDL
     def play( ch = -1 )
       unless self.wave.empty?
         t = Tempfile.new('beeptoys')
-        t.write make_wav_header
+        t.write make_header
+        t.write make_wave
         t.close
         t.open
         begin
@@ -20,7 +21,7 @@ if defined? SDL
 
         rescue
           SDL.init SDL::INIT_AUDIO
-          SDL::Mixer.open( 44100, SDL::Mixer::DEFAULT_FORMAT, 2, 1024)
+          SDL::Mixer.open( 44100, SDL::Mixer::DEFAULT_FORMAT, 2, 1024 )
           retry
         end
 
