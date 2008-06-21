@@ -1,11 +1,13 @@
 require 'yaml'
+
 # default config
 BeepConfig = {
   :wave_dir    => 'wave' ,
   :sample_rate => 44100   ,
 }
 begin
-  conf = YAML.load_file('config.yaml')
+  conf_file_path = File.dirname(__FILE__) + '/../' 
+  conf = YAML.load_file( conf_file_path + 'config.yaml' )
 rescue
   conf = {}
 end
