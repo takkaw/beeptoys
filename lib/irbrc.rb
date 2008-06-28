@@ -5,6 +5,7 @@ module Collection
     w.gsub(File.extname(w),'').gsub(wave_dir,'')
   }
   s.each { |collect|
+    collect = '_' + collect if /[0-9]/ =~ collect[0..0]
     module_eval %-
       def #{collect}
         :#{collect}
