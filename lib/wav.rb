@@ -15,11 +15,15 @@ class Wav
 
     # config by args
     args.each { |arg|
-      case arg
-      when Channel ; @channels    = arg.to_i 
-      when Freq    ; @sample_rate = arg.to_i
-      when Bit     ; @sample_bit  = arg.to_i
-      else wave = arg
+      if arg.is_a? Hash
+        arg = arg.shift
+        case arg.first
+        when :channel ; @channels    = arg.last.to_i
+        when :freq    ; @sample_rate = arg.last.to_i
+        when :bit     ; @sample_bit  = arg.last.to_i
+        end
+      else
+        wave = arg
       end
     }
 
