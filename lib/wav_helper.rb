@@ -20,24 +20,6 @@ class Array
 end
 
 ### unit helper ###
-class Freq
-  def initialize( freq ) ; @freq = freq     ; end 
-  def to_i               ; @freq            ; end
-  def self.[]( freq )    ; self.new( freq ) ; end
-end
-
-class Bit
-  def initialize( bit ) ; @bit = bit      ; end
-  def to_i              ; @bit            ; end
-  def self.[]( bit )    ; self.new( bit ) ; end
-end
-
-class Channel
-  def initialize( ch )  ; @ch = ch       ; end
-  def to_i              ; @ch            ; end
-  def self.[]( ch )     ; self.new( ch ) ; end
-end
-
 class Numeric
   def hz      ; { :freq => self }       ; end 
   def khz     ; { :freq => self * 1000 }; end 
