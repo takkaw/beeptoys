@@ -16,12 +16,14 @@ class Wav
     # config by args
     args.each { |arg|
       if arg.is_a? Hash
-        arg = arg.shift
-        case arg.first
-        when :channel ; @channels    = arg.last.to_i
-        when :freq    ; @sample_rate = arg.last.to_i
-        when :bit     ; @sample_bit  = arg.last.to_i
-        end
+        arg.size.times{ 
+          a = arg.shift
+          case a.first
+          when :channel ; @channels    = a.last.to_i
+          when :freq    ; @sample_rate = a.last.to_i
+          when :bit     ; @sample_bit  = a.last.to_i
+          end
+        }
       else
         wave = arg
       end
