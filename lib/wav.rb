@@ -56,7 +56,7 @@ class Wav
     }
   end
   
-  def self.load(filename)
+  def self.load(filename,start_point=nil,end_point=nil)
     filename = filename.to_s
     filename += ".wav" unless File.extname(filename) == ".wav"
     filename = 'wave/' + filename 
@@ -64,7 +64,7 @@ class Wav
     ch,rate,bit,wave=\
     File.open(filename,"rb") { |file|
       load_riff(file)
-      load_wave(file)
+      load_wave(file,start_point,end_point)
     }
     self.new( wave , ch.ch , rate.hz , bit.bit )
   end
@@ -97,7 +97,6 @@ class Wav
     [].to_na
   end
 
-  
   def make_header
     'RIFF' +                                            # RIFF header
     (36 + self.length*@sample_bit/8*@channels).pack32 + # (36 = 44-8)
@@ -144,7 +143,7 @@ class Wav
     return {:type => type , :size => size, :data => data }
   end
 
-  def self.load_wave(file)
+  def self.load_wave(file,read_start=nil,read_size=nil)
     until file.eof?
       chunk = load_chunk(file)
       if chunk[:type] == 'fmt '
@@ -153,19 +152,22 @@ class Wav
         sample_rate    = chunk[:data].unpack32(4)
         sample_persec  = chunk[:data].unpack32(8)
         sample_bit     = chunk[:data].unpack16(14)
-        size           = chunk.size
+      # size           = chunk.size
       elsif chunk[:type] == 'data'
         data = chunk[:data]
       end
     end
 
+    read_start = 0                      unless read_start
+    read_size  = data.size - read_start unless read_size
+
     wave = []
     if sample_bit == 8
-      data.size.times { |t|
+      read_size.times { |t|
         wave << data.unpack8(t)
       }
     elsif sample_bit == 16
-      (data.size/2).times { |t|
+      (read_size/2).times { |t|
         wave << data.unpack16(t*2)
       }
     end
@@ -180,7 +182,6 @@ class Wav
 
     return channels,sample_rate,sample_bit,wave
   end
-  
   
 end  
 
