@@ -9,15 +9,15 @@ class Numeric
     :ch           => :channel ,
   }
 
-  unit.each { |unit,ret|
-    eval %Q( def  #{unit} ; { :#{ret} => self * 1000**0} ; end )
-    eval %Q( def k#{unit} ; { :#{ret} => self * 1000**1} ; end )
-    eval %Q( def m#{unit} ; { :#{ret} => self * 1000**2} ; end )
+  unit.each { |unit,sym|
+    eval %Q( def  #{unit} ; { :#{sym} => self * 1000**0} ; end )
+    eval %Q( def k#{unit} ; { :#{sym} => self * 1000**1} ; end )
+    eval %Q( def m#{unit} ; { :#{sym} => self * 1000**2} ; end )
   }
 
-  def sec ; { self * 60 ** 0 ,lambda { @sample_rate } } ; end 
-  def min ; { self * 60 ** 1 ,lambda { @sample_rate } } ; end 
-  def hour; { self * 60 ** 2 ,lambda { @sample_rate } } ; end 
+  def sec ; { :sec => self * 60 ** 0 } ; end 
+  def min ; { :sec => self * 60 ** 1 } ; end 
+  def hour; { :sec => self * 60 ** 2 } ; end 
 
 end
 

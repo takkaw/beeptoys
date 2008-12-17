@@ -6,42 +6,15 @@ class Wav
               :sample_rate,
               :sample_bit
 
+
   def initialize( *args )
     # default value
     @channels    = 1
     @sample_rate = 44100
     @sample_bit  = 16
-    wave = nil
+    #wave = nil
 
-    # config by args
-    args.each { |arg|
-      if arg.is_a? Hash
-        arg.size.times{ 
-          a = arg.shift
-          case a.first
-          when :channel ; @channels    = a.last.to_i
-          when :freq    ; @sample_rate = a.last.to_i
-          when :bit     ; @sample_bit  = a.last.to_i
-          end
-        }
-      else
-        wave = arg
-      end
-    }
-
-    unless wave
-      if monoral?
-        @wave = empty
-      elsif stereo?
-        @wave = empty,empty
-      end
-    else
-      if monoral?
-        @wave = wave.to_na
-      elsif stereo?
-        @wave = wave[0].to_na,wave[1].to_na
-      end
-    end
+    extract_args( args )
 
   end
   
@@ -75,6 +48,7 @@ class Wav
   def _16bit?  ; @sample_bit == 16 ; end
 
   def [](t)
+    
     if monoral?
       @wave[t]
     elsif stereo?
@@ -92,6 +66,38 @@ class Wav
   alias :length :size
 
   private
+
+  def extract_args( args )
+    # config by args
+    args.each { |arg|
+      if arg.is_a? Hash
+        arg.size.times{ 
+          a = arg.shift
+          case a.first
+          when :channel ; @channels    = a.last.to_i
+          when :freq    ; @sample_rate = a.last.to_i
+          when :bit     ; @sample_bit  = a.last.to_i
+          end
+        }
+      else
+        @wave = arg
+      end
+    }
+    unless @wave
+      if monoral?
+        @wave = empty
+      elsif stereo?
+        @wave = empty,empty
+      end
+    else
+      if monoral?
+        @wave = wave.to_na
+      elsif stereo?
+        @wave = wave[0].to_na,wave[1].to_na
+      end
+    end
+
+  end
 
   def empty
     [].to_na
@@ -158,6 +164,11 @@ class Wav
       end
     end
 
+    if read_start.respond_to? :keys
+      time = read_start.keys.first
+      unit = read_start[time]
+      unit = instance_eval &unit
+    end
     read_start = 0                      unless read_start
     read_size  = data.size - read_start unless read_size
 
